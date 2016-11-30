@@ -1,0 +1,9 @@
+trigger detail
+public web
+; Your SCOPE  block here (optional)...
+; Your VARIABLES block here (optional)...
+
+  ; Your implementation here...
+clear/e "<UENTDB>"
+return (0)
+end

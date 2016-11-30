@@ -1,0 +1,18 @@
+trigger detail
+; Remove the current occurrence
+public web
+; Mark the occurence as deleted
+putmess "Attempting to store data for '<UENTDB>'"
+ 
+store/e "<UENTDB>"
+if ($status = 1)
+	webmessage/info "No data has been changed. Nothing to save."
+	return (0)
+endif
+
+putmess "Saving '%%$entname' status was '%%$status'" 
+commit
+if ($status = 0)
+	webmessage "Data Saved" 
+endif
+return (0)

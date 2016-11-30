@@ -1,0 +1,78 @@
+﻿<?xml version='1.0' encoding='UTF-8' ?>
+<!-- Created by Uniface - (C) Uniface B.V. All rights reserved -->
+<!DOCTYPE UNIFACE PUBLIC "UNIFACE.DTD" "UNIFACE.DTD">
+<UNIFACE release="9.7" xmlengine="2.0">
+<TABLE>
+<DSC name="EMPLOYEE" model="BOOTSTRAP" system="S" pseudo ="90" level="1" noupdate="0"
+ rbk="0" ffsql="0" transnr="0" segsize="0" ufocc="0">
+<FLD name="ID" seqno="1" type="N" level="2" pack="0" scale="0" length="8"
+ pointer="0" inum="1" ufocc="0" mandatory="yes" idxnum="1" idxsnr="101" />
+<FLD name="NAME" seqno="2" type="S" level="2" pack="0" scale="0" length="32"
+ pointer="0" inum="0" ufocc="0" />
+<FLD name="LASTNAME" seqno="3" type="S" level="2" pack="0" scale="0" length="32"
+ pointer="0" inum="0" ufocc="0" />
+<FLD name="BIRTHDATE" seqno="4" type="D" level="2" pack="0" scale="0" length="8"
+ pointer="0" inum="0" ufocc="0" />
+<FLD name="ROLE" seqno="5" type="S" level="2" pack="0" scale="0" length="3"
+ pointer="0" inum="0" ufocc="0" />
+<FLD name="DEPARTMENT" seqno="6" type="S" level="2" pack="0" scale="0" length="3"
+ pointer="0" inum="0" ufocc="0" />
+<FLD name="EMAIL" seqno="7" type="S" level="2" pack="0" scale="0" length="256"
+ pointer="0" inum="0" ufocc="0" />
+</DSC>
+<OCC>
+<DAT name="ID">1</DAT>
+<DAT name="NAME">John</DAT>
+<DAT name="LASTNAME">Smith</DAT>
+<DAT name="BIRTHDATE">1980-12-12</DAT>
+<DAT name="ROLE">MAN</DAT>
+<DAT name="DEPARTMENT">SAL</DAT>
+<DAT name="EMAIL">john.smith@abc.com</DAT>
+</OCC>
+<OCC>
+<DAT name="ID">2</DAT>
+<DAT name="NAME">Laura</DAT>
+<DAT name="LASTNAME">Adams</DAT>
+<DAT name="BIRTHDATE">1979-02-11</DAT>
+<DAT name="ROLE">MAN</DAT>
+<DAT name="DEPARTMENT">IT</DAT>
+<DAT name="EMAIL">laura.adams@abc.com</DAT>
+</OCC>
+<OCC>
+<DAT name="ID">3</DAT>
+<DAT name="NAME">Peter</DAT>
+<DAT name="LASTNAME">Williams</DAT>
+<DAT name="BIRTHDATE">1966-10-22</DAT>
+<DAT name="ROLE">COO</DAT>
+<DAT name="DEPARTMENT">HR</DAT>
+<DAT name="EMAIL">peter.williams@abc.com</DAT>
+</OCC>
+<OCC>
+<DAT name="ID">4</DAT>
+<DAT name="NAME">Joana</DAT>
+<DAT name="LASTNAME">Sanders</DAT>
+<DAT name="BIRTHDATE">1976-11-11</DAT>
+<DAT name="ROLE">MAN</DAT>
+<DAT name="DEPARTMENT">MKT</DAT>
+<DAT name="EMAIL">joana.sanders@abc.com</DAT>
+</OCC>
+<OCC>
+<DAT name="ID">5</DAT>
+<DAT name="NAME">John</DAT>
+<DAT name="LASTNAME">Drake</DAT>
+<DAT name="BIRTHDATE">1988-08-18</DAT>
+<DAT name="ROLE">COO</DAT>
+<DAT name="DEPARTMENT">FIN</DAT>
+<DAT name="EMAIL">john.drake@abc.com</DAT>
+</OCC>
+<OCC>
+<DAT name="ID">6</DAT>
+<DAT name="NAME">Samuel</DAT>
+<DAT name="LASTNAME">Williams</DAT>
+<DAT name="BIRTHDATE">1985-03-22</DAT>
+<DAT name="ROLE">COO</DAT>
+<DAT name="DEPARTMENT">FIN</DAT>
+<DAT name="EMAIL">samuel.williams@abc.com</DAT>
+</OCC>
+</TABLE>
+</UNIFACE>

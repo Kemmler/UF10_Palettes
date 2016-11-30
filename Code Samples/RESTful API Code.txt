@@ -1,0 +1,103 @@
+operation exec
+public web
+	
+variables
+ 	string urlpresented
+	string type
+	string qualifier 
+	string item
+	string subitem
+	string debugstring
+	string requestmethod, server_variables, sentparameters
+	string accept, content_type, output_type, uppercasecontent
+	string url
+	string fixedpath
+	numeric vStatus
+	string model
+endvariables
+
+urlpresented = $webinfo("PATHINPUT") 
+;
+; No complete path specified so return a 204
+;
+
+getitem/id server_variables, $webinfo("WEBSERVERCONTEXT"), "SERVERVARIABLES"
+getitem/id requestmethod, server_variables, "REQUEST_METHOD"
+
+vStatus = $split($item("SERVER_PROTOCOL", server_variables), 1, "/", url, "")
+url = $concat($concat($lowercase(url), "://", $item("SERVER_NAME", server_variables), ":", $item("SERVER_PORT", server_variables)), $item("REQUEST_URI", server_variables))
+
+getitem/id accept, $webinfo("HTTPREQUESTHEADERS"), "accept"
+getitem/id content_type, $webinfo("HTTPREQUESTHEADERS"), "content-type"
+
+getitem/id sentparameters, $webinfo("INPUT"), "format"
+putmess "%%$componentname - sentParameters = '%%sentparameters'"
+
+output_type = "JSON"
+;
+; If you want to enable XML checking
+;
+;
+if ($uppercase(sentparameters) = "XML" )
+	putmess "%%$componentname - sentParameters = '%%sentparameters' accept='%%accept'"
+	output_type = "XML"
+endif
+
+
+if (requestmethod = "OPTIONS")
+	$webinfo("status") = "200"
+	putitem/id $webinfo("httpresponseheaders"),"Allow","GET,HEAD,OPTIONS"  
+	$webinfo("output") = "Allow: GET, HEAD, OPTIONS";
+	return (0)
+endif
+
+if ($length(urlpresented) = 0) 
+	$webinfo("status")="204"
+	$webinfo("output") = "%%$output_prefix$ 204 No Data Present"
+	return (0)
+endif
+
+
+;
+; Method other than GET/HEAD specified
+;
+if (requestmethod != "GET" && requestmethod != "HEAD")
+	$webinfo("status") = "405"
+	return (0)
+endif
+
+putmess "%%$componentname - URL = '%%url'"
+putmess "%%$componentname - Bound to = '<UENTDB>'"
+putmess "%%$componentname - output_type = '%%output_type'"
+
+getitem type, urlpresented, 1
+getitem qualifier, urlpresented, 2
+getitem item, urlpresented, 3
+getitem subitem, urlpresented, 4
+ 
+putmess "%%$componentname - type = '%%type'"
+putmess "%%$componentname - qualifier = '%%qualifier'"
+putmess "%%$componentname - item = '%%item'"
+putmess "%%$componentname - subitem = '%%subitem'"
+
+; Structure of the URL
+; 
+; /type/qualifier/item/subitem
+;
+
+vStatus = $split($lowercase("<UENTDB>"),1 ,".", fixedpath, model ) 
+putmess "%%$componentname - vStatus = %%vStatus"
+putmess "%%$componentname - fixedpath = '%%fixedpath'"
+putmess "%%$componentname - type = '%%type'"
+putmess "%%$componentname - model = '%%model'"
+
+selectcase type
+    case fixedpath
+		$webinfo("status") = runthis( qualifier, item, url, output_type, requestmethod)
+ elsecase
+	$webinfo("status") = "404" ; Return Not Found
+endselectcase
+
+return 0
+
+end

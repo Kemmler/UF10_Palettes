@@ -1,0 +1,85 @@
+; ********************************************************************************
+
+entry runthis
+
+	params
+		string qualifier      : IN     ; The Container object
+		string itemtofind     : IN     ; The item to retrieve
+		string url            : IN     ; The URL
+		string content_type   : IN     ; XML or JSON
+		string request_method : IN     ; HEAD or GET
+	endparams
+	
+	variables
+		string JSONrecords
+		numeric totalOcc 
+		string outputFieldList
+		struct ComponentStruct
+		xmlstream XMLRecords
+	endvariables
+	
+	putmess "%%$componentname - runthis "
+
+	clear/e "<UENTDB>"
+	<KEYFIELD.<UENTDB>>/init =  qualifier
+	
+	if ($length(itemtofind     ) > 0)
+		<FIELD.<UENTDB>>/init = itemtofind
+	endif
+	
+	retrieve/e "<UENTDB>" 
+		 
+	setocc "<UENTDB>",1
+	
+	if (request_method = "HEAD")
+		JSONRecords = "OK"
+		$webinfo("OUTPUT") = $concat( $OUTPUT_PREFIX$, JSONrecords)
+		if ($hits("<UENTDB>") > 0)
+			return (200)
+		else
+			return (404)
+		endif
+	endif
+	
+	totalOcc = $hits("<UENTDB>")
+
+	putmess "%%$componentname - totalOcc = '%%totalOcc'"
+	
+	if ($hits("<UENTDB>") =     0 | $hits("<UENTDB>") = "" )
+		JSONRecords = "Not found"
+		return (404)
+	endif
+	
+	putmess "%%$componentname - Setting HTTPResponseHeaders"
+
+	putitem/id $webinfo("httpresponseheaders"),"Access-Control-Allow-Origin","http://localhost"
+	putitem/id $webinfo("httpresponseheaders"),"Allow-Origin","http://localhost"
+	
+	putmess "%%$componentname - Checking ContentType"
+	 
+	if (content_type = "XML")    
+		putitem/id $webinfo("httpresponseheaders"),"Content-Type", "application/xml" ; removed charset=
+	else
+		putmess "%%$componentname - content-type = application/json"
+		putitem/id $webinfo("httpresponseheaders"),"Content-Type", "application/json" ; removed charset=
+	endif
+
+	ComponentToStruct  ComponentStruct, "<UENTDB>"
+	putmess "%%$componentname - ComponentToStruct $status = %%$status"
+
+	if (content_type = "XML")
+		StructToXML XMLRecords, ComponentStruct
+		putmess "%%$componentname - XMLRecords = '%%XMLRecords'"
+		JSONRecords = XMLRecords
+	;	
+	; Finish the XML stuff
+	;
+	else
+		StructToJSON /whitespace JSONRecords, ComponentStruct
+		putmess "%%$componentname - JSONRecords = '%%JSONRecords'"
+	endif
+ 
+	$webinfo("OUTPUT") = JSONrecords
+	return(200)
+
+end;- runthis

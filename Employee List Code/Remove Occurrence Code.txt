@@ -1,0 +1,13 @@
+trigger detail
+ 
+public web
+scope
+  input
+  output
+endscope
+
+  remocc "<$entname>", 0
+  store/e "<$entname>"
+  commit
+
+end

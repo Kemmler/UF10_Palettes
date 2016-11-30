@@ -1,0 +1,17 @@
+trigger detail
+public web
+; Your SCOPE  block here (optional)...
+; Your VARIABLES block here (optional)...
+; Note: There is a GOLD-* after searchtext 
+;
+  ; Your implementation here...
+
+clear/e "<UENTDB>"
+if ($length(SEARCHTEXT.DUMMY) > 0)
+	<NAMEFIELD.<UENTDB>>/init = "%%searchtext"
+endif
+retrieve/e "<UENTDB>"
+putmess "Returned %%$hits(<UENTDB>) records from '<UENTDB>' with profile of '%%searchtext'"
+return (0)
+
+end
